@@ -60,12 +60,12 @@
 
 
 <script>
-import { getStorage, variableTypeMatched } from "@/utils";
+// import { getStorage, variableTypeMatched } from "@/utils";
 import { USERINFO_KEY_IN_STORAGE } from "@/common/constant";
 import { removeStorage, needLogin } from "@/utils";
 import { post } from "@/common/axios";
-import authority from "@/common/authority";
-import menus from "@/common/menu";
+// import authority from "@/common/authority";
+// import menus from "@/common/menu";
 import store from "@/store";
 export default {
   name: "TheSider",
@@ -124,7 +124,7 @@ export default {
     },
 
     navClick() {
-      menu.selected = true;
+      // menu.selected = true;
     },
     // 退出
     signOut() {

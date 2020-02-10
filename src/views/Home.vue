@@ -70,7 +70,6 @@ export default {
       isCollapsed: false
     };
   },
-  computed: {
-  }
+  computed: {}
 };
 </script>

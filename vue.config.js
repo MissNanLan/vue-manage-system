@@ -30,13 +30,17 @@ module.exports = {
       chunks: ["chunk-vendors", "chunk-common", "index"]
     }
   },
-  lintOnSave: false, // eslint-loader 会将 lint 错误输出为编译警告。默认情况下，警告仅仅会被输出到命令行，且不会使得编译失败。
+  lintOnSave: 'error', 
   // 是否使用包含运行时编译器的Vue核心的构建
   runtimeCompiler: false,
   // 在生产环境下为 Babel 和 TypeScript 使用 `thread-loader`
   // 在多核机器下会默认开启。
   parallel: require("os").cpus().length > 1,
   devServer: {
+    overlay: {
+      warnings: true,
+      errors: true
+    },
     proxy: {
       "/api": {
         target: "localhost",
@@ -50,12 +54,4 @@ module.exports = {
       // 插件可以作为 `options.pluginOptions.foo` 访问这些选项。
     }
   },
-  configureWebpack: config => {
-    if (process.env.NODE_ENV === "production") {
-      // 为生产环境修改配置...
-    } else {
-      // 为开发环境修改配置...
-    }
-  },
-  chainWebpack: config => {}
 };

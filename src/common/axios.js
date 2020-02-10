@@ -5,7 +5,7 @@ import { LoadingBar, Spin } from 'view-design';
 import { USERINFO_KEY_IN_STORAGE, PREFIX } from '@/common/constant';
 import { getToken, getMsgByCode, toggleMsg } from '@/utils';
 
-// console.log(LoadingBar,Spin)
+
 
 // 所有的 axios 请求 ，默认请求前加上 LoadingBar ／ Spin
 
@@ -13,8 +13,8 @@ import { getToken, getMsgByCode, toggleMsg } from '@/utils';
 
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    // LoadingBar.start();
-    // Spin.show()
+    LoadingBar.start();
+    Spin.show()
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -40,7 +40,7 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
     console.log(error);
     toggleMsg(getMsgByCode([error.response.status]), 'error')
-    // LoadingBar.error();
+    LoadingBar.error();
     Spin.hide();
     // 对响应错误做点什么
     return Promise.reject(error);
@@ -48,7 +48,7 @@ axios.interceptors.response.use(function (response) {
 
 const axiosErr = (err) => {
     console.log('请求错误统一打印 -> ', err);
-    // LoadingBar.error();
+    LoadingBar.error();
     Spin.hide();
     return Promise.reject(err);
 }
