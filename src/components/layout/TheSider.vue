@@ -92,6 +92,7 @@ export default {
     //     });
   },
   watch: {},
+  
   computed: {
     navs: function() {
       let navs = store.state.meunList;
