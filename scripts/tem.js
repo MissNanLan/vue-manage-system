@@ -37,7 +37,7 @@ const kebabName = arr.join("");
 
 const VueTep = `
 <template>
-    <div class="${kebabName}>
+    <div class="${kebabName}">
     </div>
 </template>
 
@@ -53,14 +53,14 @@ const VueTep = `
  * less 模板
  */
 const LessTep = `
-
+   @import '@/less/index.less'
 `;
 /**
  * script 模板
  */
 const ScriptTep = `
 export default {
-    name: ${dirName}
+    name: "${dirName}"
 }`;
 
 /**
@@ -70,7 +70,7 @@ const StoreTep = `
 export default {
     namespaced: true,
     state: {
-      name: ${dirName}Moudle
+      name: "${dirName}Moudle"
     },
     mutations: {},
     actions: {}

@@ -1,13 +1,16 @@
 <style scoped lang="less">
+
+@import '../assets/less/index.less';
+
 .layout {
-  background: #f5f7f9;
+  background: @bg-color;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
 
   .ivu-layout-header {
     padding: 0;
-    background: #fff;
+    background: @white;
   }
   .ivu-layout-sider {
     height: calc(100vh - 64px);
@@ -17,7 +20,6 @@
 .layout-logo {
   width: 100px;
   height: 30px;
-  background: #5b6270;
   border-radius: 3px;
   float: left;
   position: relative;
@@ -29,6 +31,7 @@
   display: flex;
   position: fixed;
 }
+
 </style>
 <template>
   <div class="layout">

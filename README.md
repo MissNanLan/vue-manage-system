@@ -41,4 +41,9 @@ yarn run tem [name]
 ```
 ### UI Framework
 See [https://www.iviewui.com/](https://www.iviewui.com/)
+
+### Other 
+js方法采用lodash 
+ 
+ [https://www.lodashjs.com/docs/latest](https://www.lodashjs.com/docs/latest)
 后续补充
