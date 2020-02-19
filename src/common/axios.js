@@ -1,16 +1,11 @@
 import axios from 'axios'
-
 import { LoadingBar, Spin } from 'view-design';
-
 import { USERINFO_KEY_IN_STORAGE, PREFIX } from '@/common/constant';
 import { getToken, getMsgByCode, toggleMsg } from '@/utils';
 
 
-
 // 所有的 axios 请求 ，默认请求前加上 LoadingBar ／ Spin
-
 // 请求的url 配置在 config
-
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     LoadingBar.start();
