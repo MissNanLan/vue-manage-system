@@ -6,9 +6,8 @@
         v-for="menu in navs"
         :key="menu.id"
         class="menu-item"
-        :to="menu.path"
-     
-      >
+        :class="isCollapsed?'menu-item--colsed':''"
+        :to="menu.path" >
         <i class="ias" :class="menu.icon"></i>
         <span>{{ menu.menuName }}</span>
       </MenuItem>
@@ -93,6 +92,10 @@ export default {
   vertical-align: bottom;
   transition: width 0.2s ease 0.2s;
 }
+.menu-item--colsed span{
+  width: 0;
+}
+
 .menu-item i {
   transform: translateX(0px);
   transition: font-size 0.2s ease, transform 0.2s ease;
