@@ -1,7 +1,6 @@
 <template>
     <div>
-        {{this.$store.state.customerManageMoudule.name}}
-        <i class="ias ias-icon-ziyuan"/>
+        客户管理
     </div>
 </template>
 

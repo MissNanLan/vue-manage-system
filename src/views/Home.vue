@@ -1,6 +1,5 @@
 <style scoped lang="less">
-
-@import '../assets/less/index.less';
+@import "../assets/less/index.less";
 
 .layout {
   background: @bg-color;
@@ -31,27 +30,21 @@
   display: flex;
   position: fixed;
 }
-
 </style>
 <template>
   <div class="layout">
     <Layout>
-      <Header :style="{position: 'fixed', width: '100%'}">
+      <Header :style="{ position: 'fixed', width: '100%' }">
         <TheHeader></TheHeader>
       </Header>
-      <Layout :style="{'margin-top': '64px'}">
+      <Layout :style="{ 'margin-top': '64px' }">
         <Sider collapsible :collapsed-width="78" v-model="isCollapsed">
           <TheSider :isCollapsed="isCollapsed"></TheSider>
         </Sider>
 
-        <Layout :style="{padding: '0 0 0 10px'}">
-          <div class="layout-tag">
-            <Tag type="dot" closable color="primary">标签一</Tag>
-            <Tag type="dot" closable color="success">标签二</Tag>
-            <Tag type="dot" closable color="error">标签三</Tag>
-            <Tag type="dot" closable color="warning">标签四</Tag>
-          </div>
-          <Content :style="{ background: '#fff', 'margin-top': '36px'}">
+        <Layout :style="{ padding: '0 0 0 10px' }">
+            <TheTag></TheTag>
+          <Content :style="{ background: '#fff',}">
             <router-view></router-view>
           </Content>
         </Layout>
@@ -62,10 +55,12 @@
 <script>
 import TheHeader from "@/components/layout/TheHeader.vue";
 import TheSider from "@/components/layout/TheSider.vue";
+import TheTag from "@/components/layout/TheTag.vue";
 export default {
   name: "Home",
   components: {
     TheHeader,
+    TheTag,
     TheSider
   },
   data() {

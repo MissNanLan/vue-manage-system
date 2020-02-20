@@ -1,40 +1,58 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 import customerManageMoudule from "@/views/customerManage/store";
-Vue.use(Vuex)
+import { uniqBy } from "lodash";
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    meunList: [
+    menuList: [
       {
-        name: "基础数据管理",
-        icon: '',
-        path: ''
+        menuName: "基础数据管理",
+        icon: "ias-icon-shuju",
+        path: "/basicDataManage",
+        routeName: "basicDataManage"
       },
       {
-        name: "用户管理",
-        icon: '',
+        menuName: "用户管理",
+        icon: "ias-icon-yonghu",
         path: "/userManage",
-        routeName:'userManage'
+        routeName: "userManage"
       },
       {
-        name: "客户管理",
-        icon: '',
+        menuName: "客户管理",
+        icon: "ias-icon-kehu",
         path: "/customerManage",
-        routeName:'customerManage'
+        routeName: "customerManage"
       },
       {
-        name: "客户访问记录",
-        icon: '',
-        path: ''
+        menuName: "客户访问记录",
+        icon: "ias-icon-lishi",
+        path: "/viewRecord",
+        routeName: "viewRecord"
       }
-    ]
+    ],
+    tagList: []
   },
+  getters: {},
   mutations: {
+    addTag(state, menu) {
+      let _tagList = [];
+      state.tagList.push(menu);
+      // lodash 的 uniBy 去重
+      _tagList = uniqBy(state.tagList,'routeName');
+      state.tagList = _tagList;
+    },
+    removeTag(state, menu) { 
+      state.tagList.map((item,index) => { 
+        if (item.routeName == menu.routeName) { 
+          state.tagList.splice(index,1) 
+        }
+      })
+    }
   },
-  actions: {
-  },
+  actions: {},
   modules: {
     customerManageMoudule
   }
-})
+});

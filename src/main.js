@@ -3,12 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ViewUI from 'view-design';
+import lodash from 'lodash';
+import axios from '@/service';
+
 import '@/assets/fonts/iconfont.css';
 import '@/assets/less/index.less'
 import Auth from '@/directives/auth';
 import DemoComponent from '@/components/DemoComponent';
 
 Vue.config.productionTip = false
+Vue.prototype.$http = axios;
+Vue.prototype._ = lodash
 
 Vue.use(ViewUI);
 Vue.component('DemoComponent',DemoComponent)

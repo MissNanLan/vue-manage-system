@@ -1,45 +1,62 @@
 <style lang="less" scoped>
-.layout-logo{
+.layout-header {
+  width: 95%;
+  margin: 0 auto;
+  &__logo {
     width: 40px;
     height: 30px;
     border-radius: 3px;
     float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
+    margin-top: 15px;
     background-size: 100% 100%;
-    background-image: url("../../assets/images/logo.png")
-}
-.layout-nav{
-    width: 420px;
-    margin: 0 auto;
-    margin-right: 20px;
+    background-image: url("../../assets/images/logo.png");
+  }
+  &__user {
+    float: right;
+  }
 }
 </style>
-
-
 <template>
-  <Menu mode="horizontal"  active-name="1">
-    <div class="layout-logo"></div>
-    <div class="layout-nav">
-      <MenuItem name="1">
-        <Icon type="ios-navigate"></Icon>Item 1
-      </MenuItem>
-      <MenuItem name="2">
-        <Icon type="ios-keypad"></Icon>Item 2
-      </MenuItem>
-      <MenuItem name="3">
-        <Icon type="ios-analytics"></Icon>Item 3
-      </MenuItem>
-      <MenuItem name="4">
-        <Icon type="ios-paper"></Icon>Item 4
-      </MenuItem>
+  <Menu mode="horizontal">
+    <div class="layout-header">
+      <router-link to="/">
+        <div class="layout-header__logo"></div>
+      </router-link>
+      <div class="layout-header__user">
+        <Dropdown trigger="click" style="margin-left: 20px">
+          <a href="javascript:void(0)">
+            admin
+            <Icon type="md-arrow-dropdown" />
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem>退出</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     </div>
   </Menu>
 </template>
 
 <script>
+import { navigateToLogin } from "@/utils";
 export default {
-  name: "TheHad"
+  name: "TheHeader",
+  methods: {
+    // 退出
+    signOut() {
+      this.$Spin.show();
+      this.$http
+        .post("/logout")
+        .then(res => {
+          this.$Spin.hide();
+          if (res.data && res.data.success) {
+            navigateToLogin();
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 };
 </script>

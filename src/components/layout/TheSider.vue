@@ -1,44 +1,16 @@
-
-
 <template>
   <div class="sider">
-    <!-- <div class="menu-item userInfo">
-            <p>{{this.companyName}}</p>
-            <p>
-                <span style="font-size:20px">
-                    <Icon type="ios-contact"/>
-                </span>
-                {{this.userName}}
-                <span
-                    @click="signOut"
-                    style="margin-left: 10px;cursor: pointer"
-                >退出</span>
-            </p>
-    </div>-->
-
-    <!-- <div v-for="(menu,index) in navs" :key="index" class="menu-item">
-            <router-link
-                :to="menu.name"
-                class="menu-link"
-                @click="navClick(menu)"
-                :class="{'menu-selected' :menu.selected}"
-            >
-                <Icon :type="menu.icon" class="menu-icon"/>
-                {{menu.title}}
-            </router-link>
-    </div>-->
-
-    <Menu active-name="0" theme="dark" width="auto">
+    <Menu theme="dark" width="auto" :active-name="$route.name"   @on-select="selectMenuItem">
       <MenuItem
-        :name="index"
-        v-for="(menu,index) in navs"
+        :name="menu.routeName"
+        v-for="menu in navs"
         :key="menu.id"
         class="menu-item"
-        :class="isCollapsed? 'collapsed-menu' : ''"
         :to="menu.path"
+     
       >
-        <Icon type="ios-navigate"></Icon>
-        <span>{{menu.name}}</span>
+        <i class="ias" :class="menu.icon"></i>
+        <span>{{ menu.menuName }}</span>
       </MenuItem>
 
       <!-- <Submenu name="1" v-for="menu in navs" :key="menu.id">
@@ -58,15 +30,11 @@
   </div>
 </template>
 
-
 <script>
-// import { getStorage, variableTypeMatched } from "@/utils";
-import { USERINFO_KEY_IN_STORAGE } from "@/common/constant";
-import { removeStorage, needLogin } from "@/utils";
-import { post } from "@/common/axios";
 // import authority from "@/common/authority";
 // import menus from "@/common/menu";
 import store from "@/store";
+import { openTag } from '@/utils'
 export default {
   name: "TheSider",
   props: {
@@ -81,21 +49,12 @@ export default {
       companyName: ""
     };
   },
-  mounted() {
-    // post("/user/get")
-    //     .then(res => {
-    //         this.companyName = res.data.result.companyName;
-    //         this.userName = res.data.result.userName;
-    //     })
-    //     .catch(res => {
-    //         console.error(res);
-    //     });
-  },
+  mounted() {},
   watch: {},
-  
+
   computed: {
     navs: function() {
-      let navs = store.state.meunList;
+      let navs = store.state.menuList;
       // var navs = menus.getMenuByAuthority();
       // navs.sort(function(a, b) {
       //   return a.index - b.index;
@@ -115,33 +74,10 @@ export default {
       return navs;
     }
   },
-  methods: {
-    nagivateTo(path) {
-      console.log(111)
-      if (path) {
-        this.$router.push({ path: path });
-        console(11)
-      }
-    },
 
-    navClick() {
-      // menu.selected = true;
-    },
-    // 退出
-    signOut() {
-      this.$Spin.show();
-      post("/logout")
-        .then(res => {
-          this.$Spin.hide();
-          if (res.data && res.data.success) {
-            removeStorage(USERINFO_KEY_IN_STORAGE);
-            store.commit("clearUserInfo");
-            needLogin();
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+  methods: {
+    selectMenuItem(menu){
+     openTag(this,menu)
     }
   }
 };
