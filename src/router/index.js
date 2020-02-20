@@ -30,7 +30,8 @@ const routes = [
         name: "viewRecord",
         component: () => import("@/views/viewRecord")
       }
-    ]
+    ],
+    redirect: { name: "basicDataManage" }
   }
 ];
 
