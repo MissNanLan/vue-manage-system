@@ -1,16 +1,17 @@
 <template>
   <div class="tag">
-    <Tag
-      type="dot"
+    <el-tag
+      class="tag__item"
       v-for="(tag, index) in tagList"
-      :key="tag.routeName"
-      :name="tag.routeName"
-      @on-close="closePage(tag, index)"
-      @click.native="linkTo(tag)"
-      :closable="index !== 0"
-      :color="tag.routeName === currentName ? 'primary' : 'default'"
-      >{{ tag.menuName }}</Tag
+      :key="tag.path"
+      :type="currentPath == tag.path ? '' : 'info'"
+      @click="navigateTo(tag.path)"
+      @close="closePage(tag, index)"
+      effect="plain"
+      closable
     >
+      {{ tag.meta.title }}
+    </el-tag>
   </div>
 </template>
 
@@ -20,7 +21,7 @@ export default {
   name: "TheTag",
   data() {
     return {
-      currentName: this.$route.name
+      currentPath: this.$route.path
     };
   },
 
@@ -30,8 +31,11 @@ export default {
     }
   },
   watch: {
-    $route(to) {
-      this.currentName = to.name;
+    $route: {
+      handler: function(route) {
+        this.currentPath = route.path;
+        console.log(this.currentPath);
+      }
     }
   },
   mounted() {
@@ -42,27 +46,32 @@ export default {
       let _tagList = this.$store.state.tagList;
       // 假设从最后一个高亮的位置删除
       if (index == _tagList.length - 1) {
-        this.linkTo(_tagList[_tagList.length - 2]);
+        this.navigateTo(_tagList[_tagList.length - 2]);
         this.currentName = _tagList[_tagList.length - 2].routeName;
         this.$store.commit("removeTag", tag);
         // 删除当前显示
       } else if (tag.routeName === this.currentName) {
         this.currentName = _tagList[index].routeName;
-        this.linkTo(_tagList[index - 1]);
+        this.navigateTo(_tagList[index - 1]);
         this.$store.commit("removeTag", tag);
       } else {
         this.$store.commit("removeTag", tag);
       }
     },
-    linkTo(tag) {
-      this.$router.push(tag.path);
+
+    navigateTo(path) {
+      this.$router.push(path);
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+@import "~@/assets/less/index.less";
 .tag {
-  margin-bottom: 2px;
+  &__item {
+    margin-right: 10px;
+    cursor: pointer;
+  }
 }
 </style>

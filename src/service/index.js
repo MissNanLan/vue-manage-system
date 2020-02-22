@@ -1,12 +1,13 @@
 import axios from "./axios";
 import { USERINFO_KEY_IN_STORAGE, PREFIX } from "@/common/constant";
-import { LoadingBar, Spin } from "view-design";
+// import { Loading } from 'element-ui';
 import { getToken } from "@/utils";
 
+// const loadingInstance = Loading.service({fullscreen:true});
 const axiosErr = err => {
   console.log("请求错误统一打印 -> ", err);
-  LoadingBar.error();
-  Spin.hide();
+  // Loading.error();
+  // Spin.hide();
   return Promise.reject(err);
 };
 

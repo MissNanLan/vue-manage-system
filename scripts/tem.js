@@ -38,6 +38,7 @@ const kebabName = arr.join("");
 const VueTep = `
 <template>
     <div class="${kebabName}">
+      我是${kebabName}
     </div>
 </template>
 
@@ -53,7 +54,7 @@ const VueTep = `
  * less 模板
  */
 const LessTep = `
-   @import '@/less/index.less'
+@import '~@/assets/less/index.less';
 `;
 /**
  * script 模板

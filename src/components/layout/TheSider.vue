@@ -1,39 +1,45 @@
 <template>
   <div class="sider">
-    <Menu theme="dark" width="auto" :active-name="$route.name"   @on-select="selectMenuItem">
-      <MenuItem
-        :name="menu.routeName"
-        v-for="menu in navs"
-        :key="menu.id"
-        class="menu-item"
-        :class="isCollapsed?'menu-item--colsed':''"
-        :to="menu.path" >
-        <i class="ias" :class="menu.icon"></i>
-        <span>{{ menu.menuName }}</span>
-      </MenuItem>
+    <el-menu
+      :default-active="currentPath"
+      class="el-menu-vertical-demo"
+      @select="handleSelect"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      :collapse="isCollapsed"
+    >
+      <template v-for="menu in sideMenuList">
+        <template v-if="!menu.meta.isLeaf">
+          <el-submenu :index="menu.path" :key="menu.id">
+            <template slot="title"
+              ><i class="el-icon-menu"></i>
+              <span slot="title">{{ menu.meta.title }}</span></template
+            >
+            <el-menu-item
+              v-for="subMenu in menu.children"
+              :key="subMenu.id"
+              :index="subMenu.path"
+            >
+              <i class="el-icon-menu"></i>
+              {{ subMenu.meta.title }}
+            </el-menu-item>
+          </el-submenu>
+        </template>
 
-      <!-- <Submenu name="1" v-for="menu in navs" :key="menu.id">
-          <template slot="title">
-            <Icon type="ios-navigate"></Icon>{{menu.name}}
-          </template>
-        </Submenu>
-        
-        <Submenu name="2">
-          <template slot="title">
-            <Icon type="ios-keypad"></Icon>Item 2
-          </template>
-          <MenuItem name="2-1">Option 1</MenuItem>
-          <MenuItem name="2-2">Option 2</MenuItem>
-      </Submenu>-->
-    </Menu>
+        <template v-else>
+          <el-menu-item :index="menu.path" :key="menu.id">
+            <i class="el-icon-menu"></i>
+            <span>{{ menu.meta.title }}</span>
+          </el-menu-item>
+        </template>
+      </template>
+    </el-menu>
   </div>
 </template>
 
 <script>
-// import authority from "@/common/authority";
-// import menus from "@/common/menu";
-import store from "@/store";
-import { openTag } from '@/utils'
+import { openTag } from "@/utils";
 export default {
   name: "TheSider",
   props: {
@@ -44,72 +50,43 @@ export default {
   },
   data() {
     return {
-      userName: "",
-      companyName: ""
+      currentPath: ""
     };
   },
+
   mounted() {},
-  watch: {},
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.currentPath = route.path;
+        console.log(this.currentPath);
+      }
+    }
+  },
 
   computed: {
-    navs: function() {
-      let navs = store.state.menuList;
-      // var navs = menus.getMenuByAuthority();
-      // navs.sort(function(a, b) {
-      //   return a.index - b.index;
-      // });
-
-      // var subs = store.getters.getSubMenus; //获取二级菜单
-      // var subMenu = [];
-      // subs.forEach((sub, index) => {
-      //     subMenu.push({
-      //         index: index,
-      //         icon: "ios-arrow-forward",
-      //         title: sub.locationName,
-      //         name: "control-center?locId=" + sub.id
-      //     });
-      // });
-      // menus.setSubMenu(subMenu, "control-center");
-      return navs;
+    sideMenuList() {
+      return this.$store.state.subMenuList;
     }
   },
 
   methods: {
-    selectMenuItem(menu){
-     openTag(this,menu)
-    }
+    handleSelect(path) {
+      this.$router.push(path);
+      openTag(this, path);
+      console.log(path);
+    },
+    handleOpen() {},
+    handleClose() {}
   }
 };
 </script>
 
 <style lang="less" scoped>
-.menu-item span {
-  display: inline-block;
-  overflow: hidden;
-  width: 100px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: bottom;
-  transition: width 0.2s ease 0.2s;
-}
-.menu-item--colsed span{
-  width: 0;
-}
-
-.menu-item i {
-  transform: translateX(0px);
-  transition: font-size 0.2s ease, transform 0.2s ease;
-  vertical-align: middle;
-  font-size: 16px;
-}
-.collapsed-menu span {
-  width: 0px;
-  transition: width 0.2s ease;
-}
-.collapsed-menu i {
-  transform: translateX(5px);
-  transition: font-size 0.2s ease 0.2s, transform 0.2s ease 0.2s;
-  vertical-align: middle;
-  font-size: 22px;
+@import "~@/assets/less/index.less";
+.sider {
+  .el-menu {
+    border-right: none;
+  }
 }
 </style>
