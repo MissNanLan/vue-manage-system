@@ -8,7 +8,7 @@
       @click="navigateTo(tag.path)"
       @close="closePage(tag, index)"
       effect="plain"
-      closable
+      :closable="index != 0"
     >
       {{ tag.meta.title }}
     </el-tag>
@@ -34,31 +34,34 @@ export default {
     $route: {
       handler: function(route) {
         this.currentPath = route.path;
-        console.log(this.currentPath);
+        openTag(this, this.currentPath);
       }
     }
   },
+  
   mounted() {
-    openTag(this, this.currentName);
+    openTag(this, this.currentPath);
   },
+
   methods: {
     closePage(tag, index) {
       let _tagList = this.$store.state.tagList;
+
       // 假设从最后一个高亮的位置删除
       if (index == _tagList.length - 1) {
         this.navigateTo(_tagList[_tagList.length - 2]);
-        this.currentName = _tagList[_tagList.length - 2].routeName;
+        this.currentPath = _tagList[_tagList.length - 2].path;
         this.$store.commit("removeTag", tag);
+
         // 删除当前显示
-      } else if (tag.routeName === this.currentName) {
-        this.currentName = _tagList[index].routeName;
+      } else if (tag.path === this.currentPath) {
+        this.currentPath = _tagList[index].path;
         this.navigateTo(_tagList[index - 1]);
         this.$store.commit("removeTag", tag);
       } else {
         this.$store.commit("removeTag", tag);
       }
     },
-
     navigateTo(path) {
       this.$router.push(path);
     }

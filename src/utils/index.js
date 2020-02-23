@@ -39,11 +39,8 @@ export const navigateToLogin = () => {
  * @param menu 菜单选项
  */
 export const openTag = (vm, path) => {
-  console.log(path);
-
   let _openedTagList = vm.$store.state.menuList;
   let _menu;
-
   _openedTagList.map(menu => {
     if (!menu.meta.isLeaf) {
       menu.children.map(subMenu => {

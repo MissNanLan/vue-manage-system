@@ -50,34 +50,30 @@ export default {
   },
   data() {
     return {
-      currentPath: ""
+      
     };
   },
 
-  mounted() {},
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.currentPath = route.path;
-        console.log(this.currentPath);
-      }
-    }
+  mounted() {
+
   },
 
   computed: {
     sideMenuList() {
       return this.$store.state.subMenuList;
+    },
+    currentPath(){
+      console.log(this.$store.state.currentPath);
+      return this.$store.state.currentPath;
     }
   },
 
   methods: {
     handleSelect(path) {
+      console.log(path);
       this.$router.push(path);
       openTag(this, path);
-      console.log(path);
     },
-    handleOpen() {},
-    handleClose() {}
   }
 };
 </script>

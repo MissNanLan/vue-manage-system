@@ -8,26 +8,28 @@ export default new Vuex.Store({
   state: {
     menuList: [],
     subMenuList: [],
-    tagList: []
+    tagList: [],
+    currentPath: ""
   },
   getters: {},
   mutations: {
     getMenuList(state, menuList) {
       state.menuList = menuList;
     },
-    
+
     // 渲染子菜单
-    renderSubMenu(state, index) {
-      state.menuList.map((menu, i) => {
+    renderSubMenu(state, pathObj) {
+      state.currentPath = pathObj.currentPath;
+      state.menuList.map(menu => {
         if (!menu.meta.isLeaf) {
-          if (index == i) {
+          if (menu.path == pathObj.firstPath) {
             state.subMenuList = menu.children;
           }
         }
       });
     },
 
-   // 添加tag
+    // 添加tag
     addTag(state, menu) {
       let _tagList = [];
       state.tagList.push(menu);

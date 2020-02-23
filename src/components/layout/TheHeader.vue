@@ -76,7 +76,7 @@
     </router-link>
     <div class="header__nav">
       <el-menu
-        :default-active="currentPath"
+        :default-active="pathObj.firstPath"
         class="el-menu-header"
         mode="horizontal"
         background-color="#545c64"
@@ -84,10 +84,10 @@
         active-text-color="#ffd04b"
       >
         <el-menu-item
-          v-for="(menu, index) in headMenuList"
+          v-for="menu in headMenuList"
           :key="menu.id"
           :index="menu.path"
-          @click="handleSelect(menu.path, index)"
+          @click="handleSelect(menu.path)"
         >
           {{ menu.meta.title }}
         </el-menu-item>
@@ -131,20 +131,28 @@ export default {
   },
   data() {
     return {
-      currentPath: "",
-      nickname: ""
+      nickname: "",
+      pathObj: {
+        currentPath: this.$route.path,
+        firstPath: this.$route.path.match(/\/[\w]*/)[0]
+      }
     };
   },
-  watch: {},
+  watch: {
+    $route(to) {
+      this.pathObj.currentPath = to.path;
+      this.pathObj.firstPath = to.path.match(/\/[\w]*/)[0];
+      this.$store.commit("renderSubMenu", this.pathObj);
+    }
+  },
 
   computed: {
     headMenuList() {
       return this.$store.state.menuList;
     }
   },
-
   mounted() {
-    this.$store.commit("renderSubMenu", 0);
+    this.$store.commit("renderSubMenu", this.pathObj);
     this.$router.push(this.currentPath);
   },
   methods: {
@@ -162,9 +170,9 @@ export default {
           console.log(error);
         });
     },
-    handleSelect(path, index) {
-      this.$store.commit("renderSubMenu", index);
-      this.currentPath = path;
+    handleSelect(path) {
+      this.pathObj.firstPath = path;
+      this.$store.commit("renderSubMenu", this.pathObj);
       this.$router.push(path);
     }
   }
